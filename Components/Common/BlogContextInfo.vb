@@ -54,7 +54,22 @@ Namespace Common
    RequestParams = context.Request.Params
 
    context.Request.Params.ReadValue("Blog", BlogId)
-   context.Request.Params.ReadValue("Post", ContentItemId)
+
+
+    Dim loadPost As Boolean = True
+    Dim settings As HashTable = (New DotNetNuke.Entities.Modules.ModuleController).GetModuleSettings(blogModule.ModuleId)
+    Dim tmp As String
+    settings.ReadValue("LoadPost", tmp)
+    
+    If (tmp IsNot Nothing) then 
+        loadPost = false
+    End If
+            
+
+    If (loadPost) then
+        context.Request.Params.ReadValue("Post", ContentItemId)
+    End If
+
    context.Request.Params.ReadValue("Term", TermId)
    context.Request.Params.ReadValue("Categories", Categories)
    context.Request.Params.ReadValue("User", AuthorId)
